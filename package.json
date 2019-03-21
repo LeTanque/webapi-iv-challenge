@@ -1,7 +1,7 @@
 {
   "name": "webapi-blog",
   "version": "1.0.0",
-  "description": "Web API Blog Project",
+  "description": "Web API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
