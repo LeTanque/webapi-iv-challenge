@@ -10,7 +10,7 @@ server.use(cors());
 server.use(helmet());
 
 server.all('/', (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://protected-coast-60365.herokuapp.com/");
+    res.header("Access-Control-Allow-Origin", "https://suspicious-lamarr-981f87.netlify.com/");
     next()
 })
 
