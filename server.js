@@ -9,6 +9,11 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 
+server.all('/', (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://protected-coast-60365.herokuapp.com/");
+    next()
+})
+
 server.get('/', (req, res) => {
     res.send(`
         <h2>Lambda Hubs API</h>
