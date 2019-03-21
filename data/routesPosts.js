@@ -75,9 +75,9 @@ routesPosts.delete('/:id', async (req, res) => {
     try {
         const postDeleted = await PostDB.remove(req.params.id);
         if (postDeleted > 1) {
-            res.status(200).json({ message: `${postDeleted} posts have been deleted` })
+            res.status(200).json({ message: `${postDeleted} posts have been deleted`, deletedPost: checkPostExists })
         } else {
-            res.status(200).json({ message: `${postDeleted} post has been deleted` })
+            res.status(200).json({ message: `${postDeleted} post has been deleted`, deletedPost: checkPostExists })
         }
     }
     catch (error) {
