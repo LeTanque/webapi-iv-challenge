@@ -1,6 +1,7 @@
 const express = require('express');
 
 const PostDB = require('./helpers/postDb.js');
+const UserDB = require('./helpers/userDb.js');
 
 const routesPosts = express.Router();
 
@@ -23,7 +24,7 @@ routesPosts.get('/', async (req, res) => {
 routesPosts.get('/:id', async (req, res) => {
     try {
         const postById = await PostDB.getById(req.params.id);
-        if (postById.length === 0) {  
+        if (!postById) {  
             res.status(404).json({ message: "The post with the specified ID does not exist." });
         } else {
             res.status(200).json(postById);
@@ -37,15 +38,27 @@ routesPosts.get('/:id', async (req, res) => {
 
 // Add a new post as user by id
 routesPosts.post('/', async (req, res) => {
+
     if (!req.body.text) {
-        return res.status(409).json({ message: "Post cannot be blank!" });
+        return res.status(400).json({ message: "Post cannot be blank!" });
     }
     if (!req.body.user_id) {
-        return res.status(409).json({ message: "Please include user id." });
+        return res.status(400).json({ message: "Please include user id." });
     }
+    
     try {
-        const data = await PostDB.insert(req.body);
-        res.status(200).json(`Successfully added post as user_id: ${data.user_id}`);
+        const checkUserExists = await PostDB.getUserById(req.body.user_id);
+        if (!checkUserExists) {
+            return res.status(400).json({ message: "User does not exist." });
+        }
+    }
+    catch (error) {
+        res.status(500).json({ message: "Error checking for existence of user." })
+    }
+
+    try {
+        const post = await PostDB.insert(req.body);
+        res.status(200).json(`Successfully added post as user_id: ${post.user_id}`);
     }
     catch (error) {
         res.status(500).json({ error: "Error adding post!" });

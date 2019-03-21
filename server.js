@@ -5,9 +5,9 @@ const router = require('./data/router.js');
 
 const server = express();
 
+server.use(helmet());
 server.use(express.json());
 server.use(cors());
-server.use(helmet());
 
 server.all('/', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
