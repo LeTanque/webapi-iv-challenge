@@ -28,8 +28,8 @@ const useAPI = endpoint => {
 const App = () => {
   const initialState = useContext(UsersContext);
   const [ state, dispatch ] = useReducer(reducer, initialState);
-  const usersAll = useAPI("https://desolate-peak-59208.herokuapp.com/api/users");
-  const postsAll = useAPI("https://desolate-peak-59208.herokuapp.com/api/posts");
+  const usersAll = useAPI("https://protected-coast-60365.herokuapp.com/api/users");
+  const postsAll = useAPI("https://protected-coast-60365.herokuapp.com/api/posts");
 
   useEffect(() => {
     dispatch({
