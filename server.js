@@ -9,9 +9,19 @@ server.use(express.json());
 server.use(cors());
 server.use(helmet());
 
-server.all('/', (req, res, next) => {
+server.use('/', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "https://suspicious-lamarr-981f87.netlify.com/");
-    next()
+    // res.header("Access-Control-Allow-Origin", CLIENT_ORIGIN);
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+    res.header("Access-Control-Allow-Credentials", true); 
+    if (req.method === "OPTIONS") {
+        return res.sendStatus(204);
+    }
+    next();
 })
 
 server.get('/', (req, res) => {
