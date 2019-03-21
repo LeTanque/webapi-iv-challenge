@@ -88,20 +88,21 @@ routesPosts.delete('/:id', async (req, res) => {
 
 // Update post
 routesPosts.put('/:id', async (req, res) => {
-    try {
-        const checkPostExists = await PostDB.getById(req.params.id);
-        if (!checkPostExists) { 
-            return res.status(404).json({ message: "The post with the specified ID does not exist. Cannot update!" });
-        } else if (!req.body.text) {
-            return res.status(200).json({ message: "Nothing updated." })
-        }
+    const checkPostExists = await PostDB.getById(req.params.id);
+    if (!checkPostExists) { 
+        return res.status(404).json({ message: "The post with the specified ID does not exist. Cannot update!" });
+    } 
+    if (!req.body.text) {
+        return res.status(400).json({ message: "Please include text to update post with. Nothing to update." })
     }
-    catch (error) {
-        res.status(500).json({ message: "Something went wrong updating post!"})
-    }
+
     try {
         const postUpdate = await PostDB.update(req.params.id, req.body);
-        res.status(200).json({ message: `${postUpdate} post has been updated` });
+        res.status(200).json({ 
+            message: `${postUpdate} post has been updated`, 
+            originalPost: checkPostExists, 
+            updatedPost: req.body
+        });
     }
     catch (error) {
         res.status(500).json({ message: "Something went wrong updating post!"});
