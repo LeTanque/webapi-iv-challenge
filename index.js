@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const server = require('./server.js');
 
-const port = process.env.DB_PORT || 3333;
+const port = process.env.PORT || 3333;
 const greeting = process.env.DB_GREETING;
 
 server.listen(port, () => {
